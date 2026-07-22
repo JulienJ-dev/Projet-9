@@ -14,10 +14,14 @@
             LIT<span>Review</span>
         </a>
         {% if user.is_authenticated %}
-            <form method="post" action="{% url 'logout' %}">
-                {% csrf_token %}
-                <button class="link-button" type="submit">Se déconnecter</button>
-            </form>
+            <nav class="main-nav" aria-label="Navigation principale">
+                <a href="{% url 'home' %}">Mes publications</a>
+                <a href="{% url 'ticket-create' %}">Créer un billet</a>
+                <form method="post" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button class="link-button" type="submit">Se déconnecter</button>
+                </form>
+            </nav>
         {% endif %}
     </header>
     <main id="main-content" class="page-container" tabindex="-1">

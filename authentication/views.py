@@ -25,4 +25,12 @@ def signup(request):
 
 @login_required
 def home(request):
-    return render(request, "authentication/home.html")
+    tickets = request.user.ticket_set.order_by('-time_created')
+    reviews = request.user.review_set.select_related('ticket').order_by(
+        '-time_created'
+    )
+    return render(
+        request,
+        'authentication/home.html',
+        {'tickets': tickets, 'reviews': reviews},
+    )

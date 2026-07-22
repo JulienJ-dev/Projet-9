@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ page_title }} | LITReview{% endblock %}
+
+{% block content %}
+<section class="card card-narrow" aria-labelledby="form-heading">
+    <h1 id="form-heading">{{ page_title }}</h1>
+    <div class="ticket-summary" aria-label="Billet concerné">
+        <p class="publication-meta">Billet de {{ ticket.user.username }}</p>
+        <h2>{{ ticket.title }}</h2>
+        {% if ticket.description %}<p>{{ ticket.description }}</p>{% endif %}
+    </div>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <fieldset class="form-group{% if field.name != 'rating' %} fieldset-plain{% endif %}">
+                {% if field.name == 'rating' %}
+                    <legend>{{ field.label }}</legend>
+                {% else %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {% endif %}
+                {{ field }}
+                {% for error in field.errors %}
+                    <p class="field-error" role="alert">{{ error }}</p>
+                {% endfor %}
+            </fieldset>
+        {% endfor %}
+        <div class="button-row">
+            <a class="button button-secondary" href="{% url 'home' %}">Annuler</a>
+            <button class="button" type="submit">Enregistrer</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

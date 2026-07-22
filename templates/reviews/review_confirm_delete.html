@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Supprimer une critique | LITReview{% endblock %}
+
+{% block content %}
+<section class="card card-narrow" aria-labelledby="delete-heading">
+    <p class="eyebrow">Confirmation</p>
+    <h1 id="delete-heading">Supprimer cette critique ?</h1>
+    <p>La critique « {{ review.headline }} » sera définitivement supprimée.</p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="button-row">
+            <a class="button button-secondary" href="{% url 'home' %}">Annuler</a>
+            <button class="button button-danger" type="submit">Confirmer la suppression</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

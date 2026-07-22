@@ -1,11 +1,56 @@
 {% extends 'base.html' %}
 
-{% block title %}Accueil | LITReview{% endblock %}
+{% block title %}Mes publications | LITReview{% endblock %}
 
 {% block content %}
-<section class="card card-narrow">
-    <p class="eyebrow">Connexion réussie</p>
-    <h1>Bienvenue {{ user.username }}</h1>
-    <p>Votre compte LITReview est prêt. Le flux sera ajouté à l'étape suivante.</p>
+<header class="page-heading">
+    <div>
+        <p class="eyebrow">Espace personnel</p>
+        <h1>Mes publications</h1>
+    </div>
+    <a class="button" href="{% url 'ticket-create' %}">Créer un billet</a>
+</header>
+
+<section aria-labelledby="tickets-heading">
+    <h2 id="tickets-heading">Mes billets</h2>
+    {% for ticket in tickets %}
+        <article class="card publication">
+            <p class="publication-meta">
+                Publié le {{ ticket.time_created|date:'d/m/Y à H:i' }}
+            </p>
+            <h3>{{ ticket.title }}</h3>
+            {% if ticket.description %}<p>{{ ticket.description }}</p>{% endif %}
+            {% if ticket.image %}
+                <img class="ticket-image" src="{{ ticket.image.url }}" alt="Illustration de {{ ticket.title }}">
+            {% endif %}
+            <div class="button-row">
+                <a class="button button-secondary" href="{% url 'review-create' ticket.id %}">Créer une critique</a>
+                <a class="button button-secondary" href="{% url 'ticket-edit' ticket.id %}">Modifier</a>
+                <a class="button button-danger" href="{% url 'ticket-delete' ticket.id %}">Supprimer</a>
+            </div>
+        </article>
+    {% empty %}
+        <p>Vous n'avez encore publié aucun billet.</p>
+    {% endfor %}
+</section>
+
+<section aria-labelledby="reviews-heading">
+    <h2 id="reviews-heading">Mes critiques</h2>
+    {% for review in reviews %}
+        <article class="card publication">
+            <p class="publication-meta">
+                Publiée le {{ review.time_created|date:'d/m/Y à H:i' }}
+            </p>
+            <h3>{{ review.headline }} — {{ review.rating }}/5</h3>
+            <p>En réponse au billet « {{ review.ticket.title }} ».</p>
+            {% if review.body %}<p>{{ review.body }}</p>{% endif %}
+            <div class="button-row">
+                <a class="button button-secondary" href="{% url 'review-edit' review.id %}">Modifier</a>
+                <a class="button button-danger" href="{% url 'review-delete' review.id %}">Supprimer</a>
+            </div>
+        </article>
+    {% empty %}
+        <p>Vous n'avez encore publié aucune critique.</p>
+    {% endfor %}
 </section>
 {% endblock %}
