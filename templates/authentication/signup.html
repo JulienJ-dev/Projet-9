@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}Inscription | LITReview{% endblock %}
+
+{% block content %}
+<section class="card card-narrow" aria-labelledby="signup-heading">
+    <p class="eyebrow">Bienvenue</p>
+    <h1 id="signup-heading">Créez votre compte</h1>
+
+    {% if form.errors %}
+        <div class="error-summary" role="alert" tabindex="-1">
+            <p><strong>Le formulaire contient des erreurs.</strong></p>
+            <p>Vérifiez les informations indiquées ci-dessous.</p>
+        </div>
+    {% endif %}
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                    <div class="help-text" id="{{ field.id_for_label }}_help">
+                        {{ field.help_text|safe }}
+                    </div>
+                {% endif %}
+                {% for error in field.errors %}
+                    <p class="field-error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <div class="button-row">
+            <a class="button button-secondary" href="{% url 'login' %}">Retourner</a>
+            <button class="button" type="submit">S'inscrire</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Accueil | LITReview{% endblock %}
+
+{% block content %}
+<section class="card card-narrow">
+    <p class="eyebrow">Connexion réussie</p>
+    <h1>Bienvenue {{ user.username }}</h1>
+    <p>Votre compte LITReview est prêt. Le flux sera ajouté à l'étape suivante.</p>
+</section>
+{% endblock %}

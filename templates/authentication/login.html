@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}Connexion | LITReview{% endblock %}
+
+{% block content %}
+<div class="auth-layout">
+    <section class="auth-intro" aria-labelledby="signup-heading">
+        <p class="eyebrow">Partagez vos lectures</p>
+        <h1 id="signup-heading">Rejoignez la communauté</h1>
+        <p>Demandez des avis et découvrez votre prochaine lecture.</p>
+        <a class="button button-secondary" href="{% url 'signup' %}" title="Créer un compte LITReview">
+            S'inscrire maintenant
+        </a>
+    </section>
+
+    <section class="card" aria-labelledby="login-heading">
+        <h2 id="login-heading">Connectez-vous</h2>
+        {% if form.non_field_errors %}
+            <div class="error-summary" role="alert">
+                <p>Le nom d'utilisateur ou le mot de passe est incorrect.</p>
+            </div>
+        {% endif %}
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">Nom d'utilisateur</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.password.id_for_label }}">Mot de passe</label>
+                {{ form.password }}
+            </div>
+            {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+            <button class="button" type="submit">Se connecter</button>
+        </form>
+    </section>
+</div>
+{% endblock %}
